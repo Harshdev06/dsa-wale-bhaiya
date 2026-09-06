@@ -1,35 +1,100 @@
+import { useEffect, useState } from "react";
 import logo from "./assets/dsa-logo.png";
-function App() {
+import {
+  HashRouter,
+  Routes,
+  Route,
+  Link,
+} from "react-router-dom";
+
+import supabase from "./lib/supabase";
+
+import AskDoubt from "./pages/AskDoubt";
+import DoubtDetail from "./pages/DoubtDetail";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Admin from "./pages/Admin";
+import SolveDoubt from "./pages/SolveDoubt";
+
+
+function Home() {
+  const [doubts, setDoubts] = useState([]);
+
+  useEffect(() => {
+    async function fetchDoubts() {
+      const { data, error } = await supabase
+        .from("doubts")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error("Error fetching doubts:", error);
+        return;
+      }
+
+      setDoubts(data);
+    }
+
+    fetchDoubts();
+  }, []);
+
   return (
     <div className="app">
 
-      {/* Navbar */}
+      {/* NAVBAR */}
+
       <nav className="navbar">
-        <div className="brand">
+
+        <Link to="/" className="brand">
+
           <img
-  src={logo}
-  alt="DSA Wale Bhaiya"
-  className="brand-logo"
-/>
-          <span>Wale Bhaiya</span>
-        </div>
+            src={logo}
+            alt="DSA Wale Bhaiya"
+            className="brand-logo"
+          />
+
+          <span>
+            DSA Wale Bhaiya
+          </span>
+
+        </Link>
+
 
         <div className="nav-links">
-          <a href="#home">Home</a>
-          <a href="#doubts">Doubts</a>
-          <a href="#how-it-works">How it works</a>
-          <button className="login-btn">Login</button>
+
+          <Link to="/">
+            Home
+          </Link>
+
+          <a href="#doubts">
+            Doubts
+          </a>
+
+          <a href="#how-it-works">
+            How it works
+          </a>
+
+          <Link
+            to="/login"
+            className="nav-login"
+          >
+            Login
+          </Link>
+
         </div>
+
       </nav>
 
 
-      {/* Hero */}
-      <section className="hero" id="home">
+      {/* HERO */}
+
+      <section className="hero">
 
         <div className="hero-content">
 
-          <p className="eyebrow">
-            DSA • CODING • PROBLEM SOLVING
+          <p className="section-label">
+            DSA • CODING • GUIDANCE
           </p>
 
           <h1>
@@ -37,19 +102,28 @@ function App() {
             <span> coding problem?</span>
           </h1>
 
-          <p className="hero-description">
-            Post your doubt and get a clear solution through
-            video, notes, code and simple explanations.
+          <p className="hero-text">
+            Ask your DSA doubt. Get a clear explanation
+            with code, notes and video solutions.
           </p>
 
-          <div className="hero-buttons">
-            <button className="primary-btn">
-              Ask a Doubt →
-            </button>
 
-            <button className="secondary-btn">
+          <div className="hero-buttons">
+
+            <Link
+              to="/ask"
+              className="primary-btn"
+            >
+              Ask a Doubt →
+            </Link>
+
+            <a
+              href="#doubts"
+              className="secondary-btn"
+            >
               Browse Doubts
-            </button>
+            </a>
+
           </div>
 
         </div>
@@ -57,12 +131,17 @@ function App() {
       </section>
 
 
-      {/* Recent Doubts */}
-      <section className="doubts-section" id="doubts">
+      {/* RECENT DOUBTS */}
+
+      <section
+        className="doubts-section"
+        id="doubts"
+      >
 
         <div className="section-header">
 
           <div>
+
             <p className="section-label">
               COMMUNITY
             </p>
@@ -70,160 +149,261 @@ function App() {
             <h2>
               Recent Doubts
             </h2>
+
           </div>
 
-          <button className="view-all">
-            View all →
-          </button>
+
+          <Link
+            to="/ask"
+            className="view-all"
+          >
+            Ask a doubt →
+          </Link>
 
         </div>
 
 
         <div className="doubt-grid">
 
-          <div className="doubt-card">
+          {doubts.length === 0 ? (
 
-            <p className="doubt-topic">
-              ARRAYS
+            <p className="empty-doubts">
+              No doubts yet. Be the first one to ask! 🚀
             </p>
+
+          ) : (
+
+            doubts.map((doubt) => (
+
+              <div
+                className="doubt-card"
+                key={doubt.id}
+              >
+
+                <div className="doubt-top">
+
+                  <span className="doubt-topic">
+                    {doubt.topic}
+                  </span>
+
+                  <span className="doubt-status">
+                    {doubt.status}
+                  </span>
+
+                </div>
+
+
+                <h3>
+                  {doubt.title}
+                </h3>
+
+
+                <p>
+                  {doubt.description}
+                </p>
+
+
+                <div className="doubt-footer">
+
+                  <span>
+                    {new Date(
+                      doubt.created_at
+                    ).toLocaleDateString()}
+                  </span>
+
+
+                  <Link
+                    to={`/doubt/${doubt.id}`}
+                    className="view-doubt"
+                  >
+                    View doubt →
+                  </Link>
+
+                </div>
+
+              </div>
+
+            ))
+
+          )}
+
+        </div>
+
+      </section>
+
+
+      {/* HOW IT WORKS */}
+
+      <section
+        className="how-section"
+        id="how-it-works"
+      >
+
+        <div className="section-header">
+
+          <div>
+
+            <p className="section-label">
+              SIMPLE PROCESS
+            </p>
+
+            <h2>
+              How It Works
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div className="steps">
+
+          <div className="step">
+
+            <div className="step-number">
+              01
+            </div>
 
             <h3>
-              Why is my Two Sum code not working?
+              Ask your doubt
             </h3>
 
-            <p className="doubt-description">
-              I am using unordered_map but getting the wrong answer.
+            <p>
+              Explain your coding problem and add
+              your code if you have one.
             </p>
-
-            <div className="doubt-footer">
-              <span>Easy</span>
-              <strong>View doubt →</strong>
-            </div>
 
           </div>
 
 
-          <div className="doubt-card">
+          <div className="step">
 
-            <p className="doubt-topic">
-              RECURSION
-            </p>
+            <div className="step-number">
+              02
+            </div>
 
             <h3>
-              I don't understand recursion and backtracking
+              We solve it
             </h3>
 
-            <p className="doubt-description">
-              Can someone explain what actually happens inside recursion?
+            <p>
+              Understand the approach, logic and
+              code behind the solution.
             </p>
-
-            <div className="doubt-footer">
-              <span>Medium</span>
-              <strong>View doubt →</strong>
-            </div>
 
           </div>
 
 
-          <div className="doubt-card">
+          <div className="step">
 
-            <p className="doubt-topic">
-              SEARCHING
-            </p>
+            <div className="step-number">
+              03
+            </div>
 
             <h3>
-              Binary Search giving wrong index
+              Learn & improve
             </h3>
 
-            <p className="doubt-description">
-              My logic looks correct but the answer is still incorrect.
+            <p>
+              Read the notes or watch the video
+              solution and strengthen your DSA concepts.
             </p>
-
-            <div className="doubt-footer">
-              <span>Easy</span>
-              <strong>View doubt →</strong>
-            </div>
 
           </div>
 
         </div>
 
       </section>
-      {/* How It Works */}
-<section className="how-section" id="how-it-works">
-
-  <p className="section-label">
-    SIMPLE PROCESS
-  </p>
-
-  <h2>
-    Ask. Understand. Solve.
-  </h2>
-
-  <div className="steps">
-
-    <div className="step">
-      <div className="step-number">01</div>
-
-      <h3>Ask your doubt</h3>
-
-      <p>
-        Post your DSA question, code, screenshot or
-        problem statement.
-      </p>
-    </div>
 
 
-    <div className="step">
-      <div className="step-number">02</div>
+      {/* FOOTER */}
 
-      <h3>Get the solution</h3>
+      <footer className="footer">
 
-      <p>
-        Get a solution through video, notes, code or
-        detailed explanation.
-      </p>
-    </div>
+        <div className="footer-content">
+
+          <div className="footer-brand">
+
+            <img
+              src={logo}
+              alt="DSA Wale Bhaiya"
+              className="footer-logo"
+            />
+
+            <div>
+
+              <h3>
+                DSA Wale Bhaiya
+              </h3>
+
+              <p>
+                Making DSA easier, one doubt at a time.
+              </p>
+
+            </div>
+
+          </div>
 
 
-    <div className="step">
-      <div className="step-number">03</div>
+          <p className="footer-copy">
+            © 2026 DSA Wale Bhaiya
+          </p>
 
-      <h3>Understand it</h3>
+        </div>
 
-      <p>
-        Learn the thought process instead of simply
-        copying the answer.
-      </p>
-    </div>
-
-  </div>
-
-</section>
-{/* Footer */}
-<footer className="footer">
-
-  <div className="footer-brand">
-    <img
-      src={logo}
-      alt="DSA Wale Bhaiya"
-      className="footer-logo"
-    />
-
-    <div>
-      <h3>DSA Wale Bhaiya</h3>
-      <p>Learn DSA. Solve problems. Get better.</p>
-    </div>
-  </div>
-
-  <div className="footer-right">
-    <p>Made for students who want to understand, not memorize.</p>
-  </div>
-
-</footer>
+      </footer>
 
     </div>
   );
 }
+
+
+function App() {
+  return (
+    <HashRouter>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/ask"
+          element={<AskDoubt />}
+        />
+
+        <Route
+          path="/doubt/:id"
+          element={<DoubtDetail />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/signup"
+          element={<Signup />}
+        />
+
+        <Route
+          path="/admin"
+          element={<Admin />}
+        />
+
+        <Route
+          path="/solve/:id"
+          element={<SolveDoubt />}
+        />
+
+      </Routes>
+
+    </HashRouter>
+  );
+}
+
 
 export default App;
