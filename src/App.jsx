@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import logo from "./assets/dsa-logo.png";
+
 import {
   HashRouter,
   Routes,
   Route,
   Link,
+  useNavigate,
 } from "react-router-dom";
 
 import supabase from "./lib/supabase";
@@ -15,65 +17,120 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Admin from "./pages/Admin";
 import SolveDoubt from "./pages/SolveDoubt";
+import MyDoubts from "./pages/MyDoubts";
 
 
-function Home() {
-  const [doubts, setDoubts] = useState([]);
+/* =========================
+   NAVBAR
+========================= */
+
+function Navbar() {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchDoubts() {
-      const { data, error } = await supabase
-        .from("doubts")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(3);
+    async function getUser() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      if (error) {
-        console.error("Error fetching doubts:", error);
+      if (!user) {
+        setLoading(false);
         return;
       }
 
-      setDoubts(data);
+      setUser(user);
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("is_admin")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      setIsAdmin(profile?.is_admin === true);
+      setLoading(false);
     }
 
-    fetchDoubts();
+    getUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+
+        const currentUser = session?.user || null;
+
+        setUser(currentUser);
+
+        if (!currentUser) {
+          setIsAdmin(false);
+          return;
+        }
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("is_admin")
+          .eq("id", currentUser.id)
+          .maybeSingle();
+
+        setIsAdmin(profile?.is_admin === true);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate("/");
+  }
+
   return (
-    <div className="app">
+    <nav className="navbar">
 
-      {/* NAVBAR */}
+      {/* LOGO */}
 
-      <nav className="navbar">
+      <Link
+        to="/"
+        className="brand"
+      >
 
-        <Link to="/" className="brand">
+        <img
+          src={logo}
+          alt="DSA Wale Bhaiya"
+          className="brand-logo"
+        />
 
-          <img
-            src={logo}
-            alt="DSA Wale Bhaiya"
-            className="brand-logo"
-          />
+        <span>
+          DSA Wale Bhaiya
+        </span>
 
-          <span>
-            DSA Wale Bhaiya
-          </span>
+      </Link>
 
+
+      {/* NAV LINKS */}
+
+      <div className="nav-links">
+
+        <Link to="/">
+          Home
         </Link>
 
+        <a href="/#doubts">
+          Doubts
+        </a>
 
-        <div className="nav-links">
+        <a href="/#how-it-works">
+          How it works
+        </a>
 
-          <Link to="/">
-            Home
-          </Link>
 
-          <a href="#doubts">
-            Doubts
-          </a>
-
-          <a href="#how-it-works">
-            How it works
-          </a>
+        {!loading && !user && (
 
           <Link
             to="/login"
@@ -82,9 +139,91 @@ function Home() {
             Login
           </Link>
 
-        </div>
+        )}
 
-      </nav>
+
+        {!loading && user && !isAdmin && (
+
+          <Link
+            to="/my-doubts"
+            className="nav-login"
+          >
+            My Doubts
+          </Link>
+
+        )}
+
+
+        {!loading && user && isAdmin && (
+
+          <Link
+            to="/admin"
+            className="nav-login"
+          >
+            Admin Dashboard
+          </Link>
+
+        )}
+
+
+        {!loading && user && (
+
+          <button
+            onClick={handleLogout}
+            className="nav-logout"
+          >
+            Logout
+          </button>
+
+        )}
+
+      </div>
+
+    </nav>
+  );
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function Home() {
+
+  const [doubts, setDoubts] = useState([]);
+
+  useEffect(() => {
+
+    async function fetchDoubts() {
+
+      const { data, error } = await supabase
+        .from("doubts")
+        .select("*")
+        .order("created_at", {
+          ascending: false,
+        })
+        .limit(3);
+
+      if (error) {
+        console.error(
+          "Error fetching doubts:",
+          error
+        );
+        return;
+      }
+
+      setDoubts(data);
+    }
+
+    fetchDoubts();
+
+  }, []);
+
+
+  return (
+    <div className="app">
+
+      <Navbar />
 
 
       {/* HERO */}
@@ -103,8 +242,9 @@ function Home() {
           </h1>
 
           <p className="hero-text">
-            Ask your DSA doubt. Get a clear explanation
-            with code, notes and video solutions.
+            Ask your DSA doubt. Get a clear
+            explanation with code, notes and
+            video solutions.
           </p>
 
 
@@ -152,7 +292,6 @@ function Home() {
 
           </div>
 
-
           <Link
             to="/ask"
             className="view-all"
@@ -168,7 +307,8 @@ function Home() {
           {doubts.length === 0 ? (
 
             <p className="empty-doubts">
-              No doubts yet. Be the first one to ask! 🚀
+              No doubts yet. Be the first one
+              to ask! 🚀
             </p>
 
           ) : (
@@ -269,8 +409,8 @@ function Home() {
             </h3>
 
             <p>
-              Explain your coding problem and add
-              your code if you have one.
+              Explain your coding problem and
+              add your code if you have one.
             </p>
 
           </div>
@@ -287,8 +427,8 @@ function Home() {
             </h3>
 
             <p>
-              Understand the approach, logic and
-              code behind the solution.
+              Understand the approach, logic
+              and code behind the solution.
             </p>
 
           </div>
@@ -306,7 +446,8 @@ function Home() {
 
             <p>
               Read the notes or watch the video
-              solution and strengthen your DSA concepts.
+              solution and strengthen your DSA
+              concepts.
             </p>
 
           </div>
@@ -337,7 +478,8 @@ function Home() {
               </h3>
 
               <p>
-                Making DSA easier, one doubt at a time.
+                Making DSA easier, one doubt
+                at a time.
               </p>
 
             </div>
@@ -358,7 +500,12 @@ function Home() {
 }
 
 
+/* =========================
+   APP ROUTES
+========================= */
+
 function App() {
+
   return (
     <HashRouter>
 
@@ -387,6 +534,11 @@ function App() {
         <Route
           path="/signup"
           element={<Signup />}
+        />
+
+        <Route
+          path="/my-doubts"
+          element={<MyDoubts />}
         />
 
         <Route

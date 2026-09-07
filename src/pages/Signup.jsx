@@ -25,7 +25,9 @@ function Signup() {
     }
 
     if (password.length < 6) {
-      setError("Password kam se kam 6 characters ka hona chahiye.");
+      setError(
+        "Password kam se kam 6 characters ka hona chahiye."
+      );
       return;
     }
 
@@ -34,6 +36,10 @@ function Signup() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo:
+          "https://harshdev06.github.io/dsa-wale-bhaiya/#/login",
+      },
     });
 
     setLoading(false);
@@ -43,13 +49,11 @@ function Signup() {
       return;
     }
 
-    // Agar email confirmation disabled hai
     if (data.session) {
-      navigate("/ask");
+      navigate("/my-doubts");
       return;
     }
 
-    // Agar email confirmation enabled hai
     setSuccess(
       "Account create ho gaya! 📧 Email check karke account confirm karo, phir login karo."
     );
@@ -69,13 +73,12 @@ function Signup() {
         </h1>
 
         <p className="login-subtitle">
-          Create an account to ask doubts and track your solutions.
+          Create an account to ask doubts and track
+          your solutions.
         </p>
 
 
         <form onSubmit={handleSignup}>
-
-          {/* EMAIL */}
 
           <div className="form-group">
 
@@ -97,8 +100,6 @@ function Signup() {
           </div>
 
 
-          {/* PASSWORD */}
-
           <div className="form-group">
 
             <label htmlFor="signup-password">
@@ -118,8 +119,6 @@ function Signup() {
 
           </div>
 
-
-          {/* CONFIRM PASSWORD */}
 
           <div className="form-group">
 
@@ -141,8 +140,6 @@ function Signup() {
           </div>
 
 
-          {/* ERROR */}
-
           {error && (
             <p className="login-error">
               {error}
@@ -150,16 +147,12 @@ function Signup() {
           )}
 
 
-          {/* SUCCESS */}
-
           {success && (
             <p className="login-success">
               {success}
             </p>
           )}
 
-
-          {/* BUTTON */}
 
           <button
             type="submit"
@@ -175,10 +168,13 @@ function Signup() {
 
 
         <p className="login-footer-text">
+
           Already have an account?{" "}
+
           <Link to="/login">
             Login
           </Link>
+
         </p>
 
       </div>

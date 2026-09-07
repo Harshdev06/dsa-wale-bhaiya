@@ -998,3 +998,234 @@ a {
   height: 100%;
   border: 0;
 }
+/* =========================
+   MY DOUBTS PAGE
+========================= */
+
+.my-doubts-page {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  padding: 50px 0 100px;
+}
+
+.my-doubts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.my-doubts-header h1 {
+  margin: 10px 0 12px;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+}
+
+.my-doubts-subtitle {
+  color: #9ca3af;
+  font-size: 1.05rem;
+  max-width: 600px;
+}
+
+.my-doubts-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.my-doubts-list {
+  margin-top: 20px;
+}
+
+.my-doubts-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.my-doubts-section-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.my-doubts-section-header span {
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+.my-doubt-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.my-doubt-card {
+  background: #111318;
+  border: 1px solid #292e37;
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.my-doubt-card:hover {
+  transform: translateY(-3px);
+  border-color: #3b82f6;
+}
+
+.my-doubt-card h3 {
+  margin: 18px 0 10px;
+  font-size: 1.3rem;
+}
+
+.my-doubt-card > p {
+  color: #9ca3af;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.my-doubt-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid #292e37;
+}
+
+.my-doubt-footer > span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.no-my-doubts {
+  text-align: center;
+  padding: 70px 20px;
+  background: #111318;
+  border: 1px solid #292e37;
+  border-radius: 16px;
+}
+
+.no-my-doubts h2 {
+  margin-bottom: 10px;
+}
+
+.no-my-doubts p {
+  color: #9ca3af;
+  margin-bottom: 25px;
+}
+
+
+/* =========================
+   LOGIN / SIGNUP
+========================= */
+
+.login-footer-text {
+  margin-top: 22px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+.login-footer-text a {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-footer-text a:hover {
+  text-decoration: underline;
+}
+
+.login-success {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin: 15px 0;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  .my-doubts-page {
+    padding: 35px 0 70px;
+  }
+
+  .my-doubts-header {
+    flex-direction: column;
+    margin-bottom: 35px;
+  }
+
+  .my-doubts-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .my-doubts-actions {
+    width: 100%;
+  }
+
+  .my-doubts-actions a,
+  .my-doubts-actions button {
+    flex: 1;
+    text-align: center;
+  }
+
+  .my-doubt-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .my-doubt-card {
+    padding: 20px;
+  }
+
+  .my-doubts-section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .my-doubt-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+}
+/* =========================
+   NAVBAR AUTH BUTTONS
+========================= */
+
+.nav-logout {
+  background: transparent;
+  border: 1px solid #292e37;
+  color: #d1d5db;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.nav-logout:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+@media (max-width: 700px) {
+
+  .nav-logout {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+}

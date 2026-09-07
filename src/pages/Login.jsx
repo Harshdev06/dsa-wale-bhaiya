@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import supabase from "../lib/supabase";
 
 function Login() {
@@ -7,6 +10,7 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,19 +20,38 @@ function Login() {
     setLoading(true);
     setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setLoading(false);
+    // Login
+    const { data, error } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
     if (error) {
+      setLoading(false);
       setError(error.message);
       return;
     }
 
-    navigate("/admin");
+    const user = data.user;
+
+    // Check admin status
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    setLoading(false);
+
+    // Admin
+    if (profile?.is_admin === true) {
+      navigate("/admin");
+      return;
+    }
+
+    // Normal student
+    navigate("/my-doubts");
   }
 
   return (
@@ -37,18 +60,24 @@ function Login() {
       <div className="login-box">
 
         <p className="section-label">
-          ADMIN
+          LOGIN
         </p>
 
-        <h1>Welcome back</h1>
+        <h1>
+          Welcome back
+        </h1>
 
         <p className="login-subtitle">
-          Login to manage and solve doubts.
+          Login to ask doubts and track your solutions.
         </p>
+
 
         <form onSubmit={handleLogin}>
 
+          {/* EMAIL */}
+
           <div className="form-group">
+
             <label htmlFor="email">
               Email
             </label>
@@ -57,13 +86,20 @@ function Login() {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
               placeholder="Enter your email"
               required
             />
+
           </div>
 
+
+          {/* PASSWORD */}
+
           <div className="form-group">
+
             <label htmlFor="password">
               Password
             </label>
@@ -72,11 +108,17 @@ function Login() {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
               placeholder="Enter your password"
               required
             />
+
           </div>
+
+
+          {/* ERROR */}
 
           {error && (
             <p className="login-error">
@@ -84,15 +126,33 @@ function Login() {
             </p>
           )}
 
+
+          {/* LOGIN BUTTON */}
+
           <button
             type="submit"
             className="primary-btn"
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login →"}
+            {loading
+              ? "Logging in..."
+              : "Login →"}
           </button>
 
         </form>
+
+
+        {/* SIGNUP */}
+
+        <p className="login-footer-text">
+
+          Don't have an account?{" "}
+
+          <Link to="/signup">
+            Create account
+          </Link>
+
+        </p>
 
       </div>
 
