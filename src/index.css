@@ -1229,3 +1229,713 @@ a {
   }
 
 }
+/* =========================================================
+   DSA WALE BHAIYA — POLISHED UI OVERRIDES
+========================================================= */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button,
+.doubt-card,
+.my-doubt-card,
+.admin-doubt,
+.step,
+.primary-btn,
+.secondary-btn,
+.login-btn,
+.nav-logout,
+.view-doubt,
+.view-all {
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease,
+    opacity 0.22s ease;
+}
+
+/* NAVBAR */
+
+.navbar {
+  height: 74px;
+  padding: 0 clamp(16px, 6vw, 90px);
+  background: rgba(8, 9, 12, 0.82);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.brand {
+  flex-shrink: 0;
+  gap: 11px;
+  font-size: 19px;
+  letter-spacing: -0.3px;
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 22px rgba(25, 191, 255, 0.12);
+}
+
+.nav-links {
+  gap: 24px;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 8px 0;
+  white-space: nowrap;
+}
+
+.nav-links a:not(.nav-login)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+  height: 2px;
+  border-radius: 10px;
+  background: #19bfff;
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.nav-links a:not(.nav-login):hover::after {
+  transform: scaleX(1);
+}
+
+.nav-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 16px !important;
+  border: 1px solid #30343d;
+  border-radius: 9px;
+  background: #111318;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+.nav-login:hover {
+  border-color: rgba(25, 191, 255, 0.55);
+  background: rgba(25, 191, 255, 0.08);
+  color: #19bfff !important;
+  transform: translateY(-1px);
+}
+
+.nav-logout {
+  min-height: 40px;
+}
+
+.nav-logout:hover {
+  background: rgba(25, 191, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+/* BUTTONS */
+
+.primary-btn,
+.secondary-btn,
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  white-space: nowrap;
+}
+
+.primary-btn {
+  box-shadow: 0 8px 24px rgba(25, 191, 255, 0.12);
+}
+
+.primary-btn:hover {
+  box-shadow: 0 12px 30px rgba(25, 191, 255, 0.18);
+}
+
+.primary-btn:active,
+.secondary-btn:active,
+.nav-login:active,
+.nav-logout:active {
+  transform: translateY(0);
+}
+
+.primary-btn:disabled,
+.secondary-btn:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none;
+}
+
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(25, 191, 255, 0.045);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  text-wrap: balance;
+}
+
+.hero-description,
+.hero-text {
+  text-wrap: pretty;
+}
+
+.hero-buttons {
+  align-items: center;
+}
+
+.secondary-btn:hover {
+  border-color: #3d4552;
+  transform: translateY(-2px);
+}
+
+/* CARDS */
+
+.doubt-card,
+.step,
+.my-doubt-card,
+.admin-stat,
+.admin-doubt,
+.solution-section,
+.doubt-form {
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.12);
+}
+
+.doubt-card:hover,
+.my-doubt-card:hover,
+.step:hover {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.doubt-card,
+.my-doubt-card {
+  min-width: 0;
+}
+
+.doubt-card h3,
+.my-doubt-card h3,
+.admin-doubt-info h3 {
+  overflow-wrap: anywhere;
+}
+
+.doubt-description,
+.doubt-card > p,
+.my-doubt-card > p {
+  overflow-wrap: anywhere;
+}
+
+.doubt-topic,
+.doubt-status {
+  display: inline-flex;
+  align-items: center;
+}
+
+.doubt-status {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(25, 191, 255, 0.08);
+  color: #a9eaff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+/* FORMS */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  appearance: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #3a414d;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  transform: translateY(-1px);
+}
+
+select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, #8b929d 50%),
+    linear-gradient(135deg, #8b929d 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 42px !important;
+}
+
+/* ADMIN */
+
+.admin-stat {
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.admin-stat:hover {
+  transform: translateY(-2px);
+  border-color: #343b46;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.16);
+}
+
+.admin-doubt {
+  align-items: flex-start;
+}
+
+.admin-view-btn {
+  margin-top: 2px;
+}
+
+/* DETAIL */
+
+.code-block {
+  scrollbar-width: thin;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.18);
+}
+
+.solution-section {
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.16);
+}
+
+/* =========================================================
+   MOBILE — CLEAN + TOUCH FRIENDLY
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .navbar {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  .brand {
+    gap: 8px;
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+
+  .nav-links {
+    margin-left: auto;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+
+  /* Hide only Home / Doubts / How it works.
+     Keep Login, My Doubts and Admin Dashboard visible. */
+  .nav-links > a:not(.nav-login) {
+    display: none !important;
+  }
+
+  .nav-links .nav-login {
+    display: inline-flex !important;
+    min-height: 36px;
+    padding: 7px 11px !important;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  .nav-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  .hero {
+    min-height: calc(100vh - 64px);
+    padding: 70px 18px 60px;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 12vw, 58px);
+    line-height: 1.04;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+
+  .hero-description,
+  .hero-text {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero-buttons {
+    width: 100%;
+    max-width: 340px;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .hero-buttons .primary-btn,
+  .hero-buttons .secondary-btn {
+    width: 100%;
+  }
+
+  .doubts-section {
+    width: 100%;
+    padding: 70px 16px;
+  }
+
+  .section-header {
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 25px;
+  }
+
+  .section-header h2 {
+    font-size: 29px;
+  }
+
+  .view-all {
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .doubt-card {
+    padding: 22px;
+    border-radius: 14px;
+  }
+
+  .doubt-card h3 {
+    font-size: 18px;
+  }
+
+  .how-section {
+    padding: 75px 16px;
+  }
+
+  .how-section h2 {
+    margin-bottom: 35px;
+    font-size: 30px;
+  }
+
+  .steps {
+    gap: 14px;
+  }
+
+  .step {
+    padding: 23px;
+  }
+
+  .step-number {
+    margin-bottom: 24px;
+  }
+
+  .ask-page {
+    min-height: calc(100vh - 64px);
+    padding: 65px 14px 65px;
+  }
+
+  .ask-header {
+    margin-bottom: 35px;
+  }
+
+  .ask-header h1 {
+    font-size: 36px;
+    letter-spacing: -1.5px;
+  }
+
+  .ask-header > p:last-child {
+    font-size: 14px;
+  }
+
+  .doubt-form {
+    padding: 20px 16px;
+    border-radius: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 21px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 13px;
+    font-size: 14px;
+    border-radius: 9px;
+  }
+
+  .doubt-form .primary-btn {
+    min-height: 48px;
+  }
+
+  .detail-page {
+    width: min(100% - 28px, 900px);
+    padding: 28px 0 70px;
+  }
+
+  .back-link {
+    margin-bottom: 32px;
+  }
+
+  .detail-header {
+    margin-bottom: 35px;
+  }
+
+  .detail-meta {
+    flex-wrap: wrap;
+  }
+
+  .detail-header h1 {
+    font-size: 30px;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+
+  .detail-description {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .detail-section,
+  .solution-section {
+    margin-bottom: 32px;
+  }
+
+  .solution-section {
+    padding: 19px;
+    border-radius: 14px;
+  }
+
+  .code-block {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .code-block code {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .youtube-wrapper {
+    border-radius: 10px;
+  }
+
+  .admin-page {
+    width: min(100% - 28px, 1100px);
+    padding: 30px 0 70px;
+  }
+
+  .admin-header {
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .admin-header h1 {
+    font-size: 38px;
+  }
+
+  .admin-subtitle {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .admin-actions {
+    width: 100%;
+  }
+
+  .admin-actions .secondary-btn,
+  .admin-actions .logout-btn {
+    min-height: 44px;
+    flex: 1;
+  }
+
+  .admin-stats {
+    gap: 10px;
+    margin-bottom: 35px;
+  }
+
+  .admin-stat {
+    padding: 19px;
+  }
+
+  .admin-stat strong {
+    font-size: 30px;
+  }
+
+  .admin-doubt {
+    gap: 18px;
+    padding: 19px;
+    border-radius: 13px;
+  }
+
+  .admin-view-btn {
+    width: 100%;
+  }
+
+  .my-doubts-page {
+    width: min(100% - 28px, 1100px);
+    min-height: calc(100vh - 64px);
+    padding: 30px 0 70px;
+  }
+
+  .my-doubts-header {
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .my-doubts-header h1 {
+    font-size: 39px;
+  }
+
+  .my-doubts-subtitle {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .my-doubts-actions {
+    gap: 9px;
+  }
+
+  .my-doubts-actions a,
+  .my-doubts-actions button {
+    min-height: 44px;
+    flex: 1;
+  }
+
+  .my-doubt-card {
+    padding: 19px;
+    border-radius: 14px;
+  }
+
+  .my-doubt-footer {
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 15px;
+  }
+
+  .footer {
+    padding: 28px 16px;
+  }
+
+  .footer-brand {
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* VERY SMALL PHONES */
+
+@media (max-width: 380px) {
+
+  .brand {
+    font-size: 15px;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-links {
+    gap: 5px;
+  }
+
+  .nav-links .nav-login {
+    padding: 7px 9px !important;
+    font-size: 11px;
+  }
+
+  .nav-logout {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .hero h1 {
+    font-size: 39px;
+  }
+
+  .my-doubts-actions {
+    flex-direction: column;
+  }
+
+  .my-doubts-actions a,
+  .my-doubts-actions button {
+    width: 100%;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
