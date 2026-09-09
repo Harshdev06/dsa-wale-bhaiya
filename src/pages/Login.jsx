@@ -20,7 +20,6 @@ function Login() {
     setLoading(true);
     setError("");
 
-    // Login
     const { data, error } =
       await supabase.auth.signInWithPassword({
         email,
@@ -35,7 +34,6 @@ function Login() {
 
     const user = data.user;
 
-    // Check admin status
     const { data: profile } = await supabase
       .from("profiles")
       .select("is_admin")
@@ -44,40 +42,31 @@ function Login() {
 
     setLoading(false);
 
-    // Admin
     if (profile?.is_admin === true) {
       navigate("/admin");
       return;
     }
 
-    // Normal student
     navigate("/my-doubts");
   }
 
   return (
     <div className="login-page">
-
       <div className="login-box">
 
         <p className="section-label">
           LOGIN
         </p>
 
-        <h1>
-          Welcome back
-        </h1>
+        <h1>Welcome back</h1>
 
         <p className="login-subtitle">
           Login to ask doubts and track your solutions.
         </p>
 
-
         <form onSubmit={handleLogin}>
 
-          {/* EMAIL */}
-
           <div className="form-group">
-
             <label htmlFor="email">
               Email
             </label>
@@ -92,14 +81,9 @@ function Login() {
               placeholder="Enter your email"
               required
             />
-
           </div>
 
-
-          {/* PASSWORD */}
-
           <div className="form-group">
-
             <label htmlFor="password">
               Password
             </label>
@@ -114,20 +98,19 @@ function Login() {
               placeholder="Enter your password"
               required
             />
-
           </div>
 
-
-          {/* ERROR */}
+          <div className="forgot-password">
+            <Link to="/forgot-password">
+              Forgot password?
+            </Link>
+          </div>
 
           {error && (
             <p className="login-error">
               {error}
             </p>
           )}
-
-
-          {/* LOGIN BUTTON */}
 
           <button
             type="submit"
@@ -141,21 +124,14 @@ function Login() {
 
         </form>
 
-
-        {/* SIGNUP */}
-
         <p className="login-footer-text">
-
           Don't have an account?{" "}
-
           <Link to="/signup">
             Create account
           </Link>
-
         </p>
 
       </div>
-
     </div>
   );
 }
